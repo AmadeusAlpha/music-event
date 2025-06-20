@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>師生音樂發表會</title>
+    
+    <!-- Tailwind CSS for utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter and a handwriting font for a personal touch -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Base Styles & Custom Fonts --- */
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            color: #374151; /* gray-700 */
+            background-color: #f7f8fc;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* --- Animated Background Notes --- */
+        .musical-note {
+            position: absolute;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: float 12s ease-in-out infinite;
+            color: #a5b4fc; /* indigo-300 */
+            z-index: 0;
+        }
+        .note-1 { top: 10%; left: 5%; font-size: 3.5rem; animation-delay: 0s; }
+        .note-2 { top: 20%; right: 8%; font-size: 2.5rem; animation-delay: 2s; color: #fca5a5; } /* red-300 */
+        .note-3 { bottom: 15%; left: 12%; font-size: 4rem; animation-delay: 4s; }
+        .note-4 { top: 60%; left: 2%; font-size: 2rem; animation-delay: 6s; color: #93c5fd; } /* blue-300 */
+        .note-5 { bottom: 5%; right: 5%; font-size: 3rem; animation-delay: 8s; color: #fcd34d; } /* amber-300 */
+        .note-6 { top: 75%; right: 15%; font-size: 2.5rem; animation-delay: 10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        /* --- Header with Background Image --- */
+        .header-bg {
+            position: relative;
+            background-image: url('https://res.cloudinary.com/dekh0nji2/image/upload/v1750350620/pexels-charles-parker-6647833_h1412k.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            overflow: hidden;
+            padding: 3rem 1.5rem;
+        }
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2));
+            z-index: 1;
+        }
+        .header-bg > * {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* --- Countdown Timer Styling --- */
+        #countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            min-width: 80px;
+        }
+        .countdown-number {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            line-height: 1.1;
+        }
+        .countdown-label {
+            font-size: 0.875rem; /* text-sm */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+        }
+        
+        /* --- Section Title Styling --- */
+        .section-title {
+            text-align: center;
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            color: #4b5563; /* gray-600 */
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .section-title::before, .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+        }
+         .section-title::before {
+            background: linear-gradient(to left, transparent, #cbd5e1, transparent);
+        }
+        .section-title i {
+             color: #60a5fa; /* blue-400 */
+        }
+        
+        /* --- Fade-in Animation on Scroll --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Media Queries for Responsiveness --- */
+        @media (max-width: 768px) {
+            .section-title { font-size: 1.5rem; } /* text-2xl */
+            .header-bg { padding: 2rem 1rem; }
+            .countdown-number { font-size: 1.875rem; } /* text-3xl */
+            .countdown-item { min-width: 65px; gap: 0.25rem; }
+            .musical-note { font-size: 2rem; opacity: 0.1; }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <!-- Animated Background Elements -->
+    <div class="musical-note note-1">♫</div>
+    <div class="musical-note note-2">♩</div>
+    <div class="musical-note note-3">♬</div>
+    <div class="musical-note note-4">♪</div>
+    <div class="musical-note note-5">♫</div>
+    <div class="musical-note note-6">♩</div>
+
+    <!-- Main Content Container -->
+    <main class="container mx-auto max-w-4xl bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-12 relative z-10">
+        
+        <!-- Header Section -->
+        <header class="header-bg text-center mb-12 fade-in">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-3">師生音樂發表會</h1>
+            <p class="text-xl sm:text-2xl mb-4 font-light">誠摯邀請您蒞臨</p>
+            <div id="countdown-container"></div>
+            <p class="mt-8 text-lg leading-relaxed max-w-2xl mx-auto">
+                懷著無比雀躍的心情，我們精心籌備了這場音樂盛宴。
+                這不僅是孩子們學習成果的展現，更是他們自信閃耀的舞台。
+            </p>
+        </header>
+
+        <!-- Purpose Section -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-music"></i>活動宗旨<i class="fa-solid fa-music"></i></h2>
+            <div class="text-gray-600 leading-loose text-center max-w-3xl mx-auto space-y-4">
+                <p>
+                    在這次的發表會中，您將聆聽孩子們透過音符訴說他們的努力與成長。每一段旋律，都是他們學習旅程中的心血結晶，是汗水與喜悅交織的篇章。
+                </p>
+                <p>
+                    您的蒞臨與掌聲，是對孩子們最大的肯定，更是給予他們溫暖支持的力量，激勵他們在音樂道路上勇敢前行。我們衷心期待與您一同分享這份榮耀與感動！
+                </p>
+            </div>
+        </section>
+
+        <!-- Details Section -->
+        <section class="mb-12 fade-in">
+             <h2 class="section-title"><i class="fa-solid fa-circle-info"></i>活動詳情<i class="fa-solid fa-circle-info"></i></h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-2xl mx-auto space-y-5 shadow-sm">
+                <div class="flex items-start">
+                    <i class="fa-solid fa-calendar-days text-xl text-blue-500 w-8 text-center mt-1"></i>
+                    <p class="text-gray-700 ml-3"><strong class="font-semibold">日期：</strong>2025 年 11 月 9 日 (星期日)</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fa-solid fa-clock text-xl text-blue-500 w-8 text-center mt-1"></i>
+                    <p class="text-gray-700 ml-3"><strong class="font-semibold">時間：</strong>下午 13:00 音樂會開始<br><span class="text-sm text-gray-500">(請於 12:00-12:30 在活動場地一樓大廳集合，將統一帶領入場)</span></p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fa-solid fa-location-dot text-xl text-blue-500 w-8 text-center mt-1"></i>
+                    <p class="text-gray-700 ml-3"><strong class="font-semibold">地點：</strong>Le Phare 共享空間 (新竹竹北館)<br><span class="text-sm text-gray-500">新竹縣竹北市復興三路二段 168 號 9 樓之五</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Important Notes Section -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-star"></i>重要事項<i class="fa-solid fa-star"></i></h2>
+            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-6 flex items-start gap-4 shadow-sm hover:shadow-lg transition-shadow">
+                    <i class="fa-solid fa-users text-2xl text-purple-500 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg text-purple-800 mb-2">親子共演</h3>
+                        <p class="text-gray-600 leading-relaxed">音樂會下半場設有親子合奏時間，歡迎您與孩子創造特別的音樂回憶。欲參加者請提前向老師登記。</p>
+                    </div>
+                </div>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 flex items-start gap-4 shadow-sm hover:shadow-lg transition-shadow">
+                    <i class="fa-solid fa-hand-holding-dollar text-2xl text-green-500 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg text-green-800 mb-2">活動費用</h3>
+                        <p class="text-gray-600 leading-relaxed">為提供更優質的體驗與維持場地，本次將酌收 <strong class="text-red-500">新台幣 500 元</strong>。費用將用於場地租借、茶點及行政開銷，感謝您的理解與支持。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title"><i class="fa-solid fa-map-location-dot"></i>交通指引<i class="fa-solid fa-map-location-dot"></i></h2>
+            <div class="max-w-3xl mx-auto text-center">
+                <div class="rounded-lg overflow-hidden shadow-lg border border-gray-200 mb-4">
+                     <img src="https://res.cloudinary.com/dekh0nji2/image/upload/v1750343870/map1_avy66m.jpg" alt="交通指引地圖" class="w-full h-auto object-cover">
+                </div>
+                <a href="https://maps.google.com/?q=新竹縣竹北市復興三路二段168號9樓之五" target="_blank" class="inline-block bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors shadow hover:shadow-md transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-google mr-2"></i>在 Google Maps 中開啟
+                </a>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-12 pt-8 border-t border-gray-200 fade-in">
+             <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M888 296h-24c-6.6 0-12 5.4-12 12v536H172V308c0-6.6-5.4-12-12-12h-24c-6.6 0-12 5.4-12 12v560c0 17.7 14.3 32 32 32h720c17.7 0 32-14.3 32-32V308c0-6.6-5.4-12-12-12m-36-168H172c-17.7 0-32 14.3-32 32v64c0 6.6 5.4 12 12 12h24c6.6 0 12-5.4 12-12V192h640v32c0 6.6 5.4 12 12 12h24c6.6 0 12-5.4 12-12v-64c0-17.7-14.3-32-32-32M381.1 432H284c-6.6 0-12 5.4-12 12v192c0 6.6 5.4 12 12 12h97.1c6.6 0 12-5.4 12-12V444c0-6.6-5.4-12-12-12m358.9 0h-97.1c-6.6 0-12 5.4-12 12v192c0 6.6 5.4 12 12 12h97.1c6.6 0 12-5.4 12-12V444c0-6.6-5.4-12-12-12M512 432c-6.6 0-12 5.4-12 12v256c0 6.6 5.4 12 12 12s12-5.4 12-12V444c0-6.6-5.4-12-12-12m0-192c-6.6 0-12 5.4-12 12v128c0 6.6 5.4 12 12 12s12-5.4 12-12V252c0-6.6-5.4-12-12-12"/></svg>
+            <p class="text-gray-600 text-lg">期待您的光臨，共襄盛舉</p>
+            <p class="mt-2 text-gray-500" style="font-family: 'Noto Sans TC', sans-serif;">逸如老師 敬上</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Dynamic Countdown Timer ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventDate = new Date('2025-11-09T13:00:00').getTime();
+            const countdownContainer = document.getElementById('countdown-container');
+
+            if (!countdownContainer) return;
+
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+
+                if (distance < 0) {
+                    countdownContainer.innerHTML = `<div class="text-center text-2xl font-bold py-3">音樂會已圓滿落幕！</div>`;
+                    clearInterval(countdownInterval);
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownContainer.innerHTML = `
+                    <div class="countdown-item">
+                        <div class="countdown-number">${String(days).padStart(2, '0')}</div>
+                        <div class="countdown-label">天</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">${String(hours).padStart(2, '0')}</div>
+                        <div class="countdown-label">時</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">${String(minutes).padStart(2, '0')}</div>
+                        <div class="countdown-label">分</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">${String(seconds).padStart(2, '0')}</div>
+                        <div class="countdown-label">秒</div>
+                    </div>
+                `;
+            };
+
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call to display immediately
+        });
+
+        // --- Fade-in Animation on Scroll ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeInElements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            fadeInElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
